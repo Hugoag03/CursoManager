@@ -1,7 +1,7 @@
 package com.tcna.gestioncursos.reports;
 
-import com.lowagie.text.*;
 import com.lowagie.text.Font;
+import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
@@ -20,7 +20,7 @@ public class CursoExporterPDF {
         this.listaCursos = listaCursos;
     }
 
-    private void writeTableHeader(PdfPTable table){
+    private void writeTableHeader(PdfPTable table) {
         PdfPCell cell = new PdfPCell();
         cell.setBackgroundColor(Color.BLUE);
         cell.setPadding(5);
@@ -44,8 +44,8 @@ public class CursoExporterPDF {
         table.addCell(cell);
     }
 
-    private void writeTableData(PdfPTable table){
-        for(Curso curso : listaCursos){
+    private void writeTableData(PdfPTable table) {
+        for (Curso curso : listaCursos) {
             table.addCell(String.valueOf(curso.getId()));
             table.addCell(curso.getTitulo());
             table.addCell(curso.getDescripcion());

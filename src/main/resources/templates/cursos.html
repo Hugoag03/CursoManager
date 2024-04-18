@@ -1,62 +1,137 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <link th:replace="fragments/css::css">
-    <meta charset="UTF-8">
-    <title>Gestión de cursos</title>
-    <link rel = "stylesheet" type = "text/css" th:href = "@{/css/style.css}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!DOCTYPE html> <!-- Define el tipo de documento como HTML5 -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org"> <!-- Inicia un documento HTML con soporte para Thymeleaf -->
+
+<head> <!-- Inicia la sección de cabecera del documento -->
+    <link th:replace="fragments/css::css"> <!-- Importa los estilos CSS definidos en un fragmento -->
+    <link rel="stylesheet" type="text/css" href="@{/css/style.css}"> <!-- Importa el archivo de estilo CSS externo -->
+    <meta charset="UTF-8"> <!-- Define la codificación de caracteres como UTF-8 -->
+    <title>Gestión de cursos</title> <!-- Establece el título de la página -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"> <!-- Importa estilos CSS utilizando Thymeleaf -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/> <!-- Importa la hoja de estilos Font Awesome -->
 </head>
-<body>
-    <div class = "container" th:replace = "fragments/header::header"></div>
-    <br/>
 
-    <div class = "container mb-5">
-        <div th:if="${message != null}" class = "alert alert-success alert-dismissible fade show text-center message">
-            [[${message}]]
-            <button type = "button" class = "close btn-sm" data-dismiss="alert" aria-label="Cerrar">
-                <span aria-hidden="true">✖</span>
-            </button>
-        </div>
-    </div>
+<body> <!-- Inicia la sección de cuerpo del documento -->
+<div class="container" th:replace="fragments/header::header"></div> <!-- Inserta un fragmento de cabecera -->
 
-    <div class = "container">
-        <div class = "row mb-3">
-            <div class = "col-md-12 d-flex justify-content-start">
-                <a th:href="@{/export/pdf}" class ="btn btn-danger">Generar PDF</a>
-                &nbsp;&nbsp;
-                <a th:href="@{/export/excel}" class ="btn btn-success">Generar Excel</a>
+<br/>
+
+<div class="container my-3"> <!-- Inicia un contenedor -->
+    <form id="searchForm" th:action="@{/cursos}"> <!-- Inicia un formulario con una acción Thymeleaf -->
+        <div class="row d-flex"> <!-- Inicia una fila con clases de bootstrap -->
+            <div class="col-md-6 mt-2"> <!-- Inicia una columna de 6 columnas para dispositivos medianos -->
+                <div class="search"> <!-- Inicia un contenedor de búsqueda -->
+                    <i class="fa fa-search"></i> <!-- Inserta un ícono de búsqueda -->
+                    <input id="keyword" type="search" name="keyword" th:value="${keyword}" required
+                           class="form-control" placeholder="Ingrese un nombre"> <!-- Inserta un campo de entrada de texto con valor Thymeleaf y requerido. Establece atributos del campo de entrada -->
+                    <br/>
+                    <button type="submit" class="btn btn-secondary">Buscar</button> <!-- Inserta un botón de envío -->
+                </div>
+            </div>
+            <div class="col-md-3 input-group mt-2"> <!-- Inicia una columna de 3 columnas para dispositivos medianos -->
+                <div class="input group-prepend"> <!-- Inicia un grupo previo de entrada -->
+                    <label class="input-group-text" for="pageSize">Elementos por página</label> <!-- Inserta una etiqueta de grupo -->
+                </div>
+                <select form="searchForm" name="size" th:value="${pageSize}" onchange="changePageSize()"
+                        class="size-select" id="pageSize"> <!-- Inserta un select con valor Thymeleaf y evento onchange. Establece clases y ID del select -->
+                    <option th:each="s: ${ {3 , 6, 9} }" th:value="${s}" th:text="${s}"
+                            th:selected="${s == pageSize}"> <!-- Inserta opciones del select con valores y texto Thymeleaf -->
+                    </option>
+                </select>
             </div>
         </div>
-        <table class = "table table-hover table-responsive-xl">
-            <thead class = "thead-light">
-            <tr>
-                <th>ID</th>
-                <th>Título</th>
-                <th>Descripción</th>
-                <th>Nivel</th>
-                <th>Publicado</th>
-                <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-                <tr th:each="curso : ${cursos}">
-                    <td>[[${curso.id}]]</td>
-                    <td>[[${curso.titulo}]]</td>
-                    <td>[[${curso.descripcion}]]</td>
-                    <td>[[${curso.nivel}]]</td>
-                    <td>
-                        <a th:if="${curso.isPublicado == true}" class = "fa-regular fa-square-check"></a>
-                        <a th:if="${curso.isPublicado == false}" class = "fa-square-check"></a>
-                    </td>
-                    <td>
-                        <a th:href="@{'/cursos/' + ${curso.id}}" title="Editar curso" class = "fa-regular fa-pen-to-square icon-dark btn btn-primary"></a>
-                        <a th:href="@{'/cursos/delete/' + ${curso.id}}" title="Eliminar curso" id= "btnDelete" class = "fa-regular fa-trash-can icon-dark btn btn-danger"></a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    </form>
+</div>
+
+<div class="container mb-5"> <!-- Inicia un contenedor con margen inferior -->
+    <div th:if="${message != null}" class="alert alert-success alert-dismissible fade show text-center message"> <!-- Inserta una alerta si hay un mensaje -->
+        [[${message}]] <!-- Inserta el mensaje utilizando Thymeleaf -->
+        <button type="button" class="close btn-sm" data-dismiss="alert" aria-label="Cerrar"> <!-- Inserta un botón de cierre de alerta -->
+            <span aria-hidden="true">✖</span> <!-- Inserta un símbolo de cierre -->
+        </button>
     </div>
-    <script th:replace = "fragments/js::js"></script>
-   </body>
-</html>
+</div>
+
+<div class="container" th:if="${cursos.size() > 0}"> <!-- Inicia un contenedor si hay cursos -->
+    <div class="row mb-3"> <!-- Inicia una fila con margen inferior -->
+        <div class="col-md-12 d-flex justify-content-start"> <!-- Inicia una columna de 12 columnas para dispositivos medianos con alineación de contenido -->
+            <a th:href="@{/export/pdf}" class="btn btn-danger">Generar PDF</a> <!-- Inserta un enlace para generar PDF -->
+            &nbsp;&nbsp; <!-- Inserta espacios en blanco -->
+            <a th:href="@{/export/excel}" class="btn btn-success">Generar Excel</a> <!-- Inserta un enlace para generar Excel -->
+        </div>
+    </div>
+    <table class="table table-hover table-responsive-xl"> <!-- Inserta una tabla con clases de bootstrap -->
+        <thead class="thead-light"> <!-- Define el encabezado de la tabla -->
+        <tr> <!-- Define una fila -->
+            <th>ID</th> <!-- Define una celda de encabezado -->
+            <th>Título</th>
+            <th>Descripción</th>
+            <th>Nivel</th>
+            <th>Publicado</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody> <!-- Inicia el cuerpo de la tabla -->
+        <tr th:each="curso : ${cursos}"> <!-- Itera sobre cada curso -->
+            <td>[[${curso.id}]]</td> <!-- Inserta el ID del curso -->
+            <td>[[${curso.titulo}]]</td> <!-- Inserta el título del curso -->
+            <td>[[${curso.descripcion}]]</td> <!-- Inserta la descripción del curso -->
+            <td>[[${curso.nivel}]]</td> <!-- Inserta el nivel del curso -->
+            <td> <!-- Inserta la columna de publicación -->
+                <a th:if="${curso.isPublicado == true}" class="fa-regular fa-square-check"></a> <!-- Inserta un ícono de marca de verificación si el curso está publicado -->
+                <a th:if="${curso.isPublicado == false}" class="fa-square-check"></a> <!-- Inserta un ícono de marca de verificación en blanco si el curso no está publicado -->
+            </td>
+            <td> <!-- Inserta la columna de acciones -->
+                <a th:href="@{'/cursos/' + ${curso.id}}" title="Editar curso"
+                class="fa-regular fa-pen-to-square icon-dark btn btn-primary"></a> <!-- Inserta un enlace para editar el curso --> <!-- Inserta un ícono de edición -->
+                <a th:href="@{'/cursos/delete/' + ${curso.id}}" title="Eliminar curso" id="btnDelete"
+                class="fa-regular fa-trash-can icon-dark btn btn-danger"></a>  <!-- Inserta un enlace para eliminar el curso --><!-- Inserta un ícono de eliminación -->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="container" th:unless="${cursos.size() > 0}"> <!-- Inicia un contenedor si no hay cursos -->
+    <span>Cursos no encontrados</span> <!-- Muestra un mensaje de "Cursos no encontrados" -->
+</div>
+
+<nav aria-label="Pagination" th:if="${totalPages > 0}"> <!-- Inicia la navegación de paginación si hay múltiples páginas -->
+    <ul class="pagination justify-content-center"> <!-- Inicia una lista de paginación centrada -->
+        <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'"> <!-- Define un elemento de página deshabilitado si está en la primera página -->
+            <a th:replace="fragments/paging :: paging(1, '<<', 'Primera página')"></a> <!-- Inserta un enlace para ir a la primera página -->
+        </li>
+        <li class="page-item font-weight-bold" th:classappend="${currentPage == 1} ? 'disabled'"> <!-- Define un elemento de página deshabilitado si está en la primera página -->
+            <a th:replace="fragments/paging :: paging(${currentPage-1}, 'Anterior', 'Anterior página')"></a> <!-- Inserta un enlace para ir a la página anterior -->
+        </li>
+        <li class="page-item disabled" th:if="${currentPage - 2 > 1}"> <!-- Define un elemento de página deshabilitado si hay más de dos páginas antes de la página actual -->
+            <a class="page-link" href="#">...</a> <!-- Inserta puntos suspensivos para indicar más páginas -->
+        </li>
+        <li class="page-item" th:classappend="${page == currentPage} ? 'active'"
+            th:each="page: ${#numbers.sequence(currentPage - 2 > 0 ? currentPage - 2 : 1, currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}">
+            <a th:replace="fragments/paging :: paging(${page}, ${page}, 'Page' + ${page})"></a> <!-- Inserta un enlace para ir a la página respectiva -->
+        </li>
+        <li class="page-item disabled" th:if="${currentPage + 2 > totalPages}"> <!-- Define un elemento de página deshabilitado si hay más de dos páginas después de la página actual -->
+            <a class="page-link" href="#">...</a> <!-- Inserta puntos suspensivos para indicar más páginas -->
+        </li>
+        <li class="page-item font-weight-bold" th:classappend="${currentPage == totalPages} ? 'disabled'"> <!-- Define un elemento de página deshabilitado si está en la última página -->
+            <a th:replace="fragments/paging :: paging(${currentPage} + 1, 'Siguiente', 'Siguiente página')"></a> <!-- Inserta un enlace para ir a la página siguiente -->
+        </li>
+        <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'"> <!-- Define un elemento de página deshabilitado si está en la última página -->
+            <a th:replace="fragments/paging :: paging(${totalPages}, '>>', 'Última página')"></a> <!-- Inserta un enlace para ir a la última página -->
+        </li>
+    </ul>
+</nav>
+
+<script type="text/javascript"> <!-- Inicia un script de JavaScript -->
+    function changePageSize(){ <!-- Define una función para cambiar el tamaño de página -->
+        $("#searchForm").submit(); <!-- Envía el formulario con el ID "searchForm" -->
+    }
+</script>
+
+<script th:replace="fragments/js::js"></script> <!-- Inserta un script de JavaScript definido en un fragmento -->
+<script th:replace="fragments/js::js2"></script> <!-- Inserta otro script de JavaScript definido en un fragmento -->
+
+</body> <!-- Termina la sección de cuerpo del documento -->
+</html> <!-- Termina el documento HTML -->
