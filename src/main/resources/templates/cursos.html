@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link th:replace="fragments/css::css">
+    <meta charset="UTF-8">
+    <title>Gestión de cursos</title>
+    <link rel = "stylesheet" type = "text/css" th:href = "@{/css/style.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class = "container" th:replace = "fragments/header::header"></div>
+    <br/>
+
+    <div class = "container mb-5">
+        <div th:if="${message != null}" class = "alert alert-success alert-dismissible fade show text-center message">
+            [[${message}]]
+            <button type = "button" class = "close btn-sm" data-dismiss="alert" aria-label="Cerrar">
+                <span arial-hidde="true">✖</span>
+            </button>
+        </div>
+    </div>
+
+    <div class = "container">
+        <table class = "table table-hover table-responsive-xl">
+            <thead class = "thead-light">
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Nivel</th>
+                <th>Publicado</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="curso : ${cursos}">
+                    <td>[[${curso.id}]]</td>
+                    <td>[[${curso.titulo}]]</td>
+                    <td>[[${curso.descripcion}]]</td>
+                    <td>[[${curso.nivel}]]</td>
+                    <td>
+                        <a th:if="${curso.isPublicado == true}" class = "fa-regular fa-square-check"></a>
+                        <a th:if="${curso.isPublicado == false}" class = "fa-square-check"></a>
+                    </td>
+                    <td>
+                        <a th:href="@{'/cursos/' + ${curso.id}}" title="Editar curso" class = "fa-regular fa-pen-to-square icon-dark btn btn-primary">Editar</a>
+                        <a th:href="@{'/cursos/delete/' + ${curso.id}}" title="Eliminar curso" id= "btnDelete" class = "fa-regular fa-trash-can icon-dark btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script th:replace = "fragments/js::js"></script>
+   </body>
+</html>
