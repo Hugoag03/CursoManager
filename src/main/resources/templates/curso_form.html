@@ -1,64 +1,64 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html> <!-- Define el tipo de documento -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org"> <!-- Define el lenguaje y declara el espacio de nombres de Thymeleaf -->
 <head>
-    <link th:replace="fragments/css::css">
-    <meta charset="UTF-8">
-    <title>Gestión de cursos</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link th:replace="fragments/css::css"> <!-- Incluye la hoja de estilos -->
+    <meta charset="UTF-8"> <!-- Define la codificación de caracteres -->
+    <title>Gestión de cursos</title> <!-- Título de la página -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"> <!-- Enlace a la hoja de estilos personalizada -->
 </head>
 <body>
-<div class="container" th:replace="fragments/header::header"></div>
+<div class="container" th:replace="fragments/header::header"></div> <!-- Incluye el fragmento de la cabecera -->
 <br/>
 <div class="container-fluid">
-    <h2 class="text-center">[[${pageTitle}]]</h2>
+    <h2 class="text-center">[[${pageTitle}]]</h2> <!-- Título dinámico de la página -->
 
     <div class="my-3">
         <form th:object="${curso}" th:action="@{/cursos/save}" method="post" enctype="multipart/form-data"
-              style="max-width: 550px; margin: 0 auto">
-            <input type="hidden" th:field="*{id}">
+              style="max-width: 550px; margin: 0 auto"> <!-- Formulario para guardar cursos -->
+            <input type="hidden" th:field="*{id}"> <!-- Campo oculto para el id del curso -->
             <div class="p-3">
                 <div class="form-group row">
-                    <label class="col-sm-3 col-form-label" for="titulo">Título</label>
+                    <label class="col-sm-3 col-form-label" for="titulo">Título</label> <!-- Etiqueta y campo para el título -->
                     <div class="col-sm-9">
                         <input type="text" th:field="*{titulo}" required minlength="2" maxlength="128"
-                               class="form-control" id="titulo">
+                               class="form-control" id="titulo"> <!-- Campo de entrada para el título -->
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-3 col-form-label" for="descripcion">Descripción</label>
+                    <label class="col-sm-3 col-form-label" for="descripcion">Descripción</label> <!-- Etiqueta y campo para la descripción -->
                     <div class="col-sm-9">
                         <input type="text" th:field="*{descripcion}" required minlength="2" maxlength="256"
-                               class="form-control" id="descripcion">
+                               class="form-control" id="descripcion"> <!-- Campo de entrada para la descripción -->
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-3 col-form-label" for="nivel">Nivel</label>
+                    <label class="col-sm-3 col-form-label" for="nivel">Nivel</label> <!-- Etiqueta y campo para el nivel -->
                     <div class="col-sm-9">
-                        <input type="text" th:field="*{nivel}" required min="2" class="form-control" id="nivel">
+                        <input type="text" th:field="*{nivel}" required min="2" class="form-control" id="nivel"> <!-- Campo de entrada para el nivel -->
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-3 col-form-label" for="publicado">Publicado</label>
+                    <label class="col-sm-3 col-form-label" for="publicado">Publicado</label> <!-- Etiqueta y campo para el estado de publicación -->
                     <div class="col-sm-9">
-                        <input type="checkbox" th:field="*{publicado}">
+                        <input type="checkbox" th:field="*{publicado}"> <!-- Casilla de verificación para el estado de publicación -->
                     </div>
                 </div>
 
                 <div class="text-center">
-                    <input type="submit" value="Guardar" class="btn btn-primary btn-sm mr-2">
-                    <input type="submit" value="Cancelar" id="btnCancelar" class="btn btn-secondary btn-sm">
+                    <input type="submit" value="Guardar" class="btn btn-primary btn-sm mr-2"> <!-- Botón para guardar cambios -->
+                    <input type="button" value="Cancelar" id="btnCancelar" class="btn btn-secondary btn-sm"> <!-- Botón para cancelar -->
                 </div>
             </div>
         </form>
     </div>
 </div>
 
-<script th:replace="fragments/js::js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:replace="fragments/js::js"></script> <!-- Incluye los scripts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> <!-- Incluye jQuery -->
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#btnCancelar").on("click", function () {
-            window.location = "[[@{/cursos}]]";
+        $("#btnCancelar").on("click", function () { <!-- Asigna una función al evento de clic del botón Cancelar -->
+            window.location = "[[@{/cursos}]]"; <!-- Redirecciona al listado de cursos -->
         });
     });
 </script>

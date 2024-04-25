@@ -1,13 +1,13 @@
-<header th:fragment="header">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-info p-3">
-        <a class="navbar-brand" th:href="@{/cursos}">Gestión de cursos</a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/cursos}">Cursos</a>
+<header th:fragment="header"> <!-- Fragmento de Thymeleaf para el encabezado -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-info p-3"> <!-- Barra de navegación -->
+        <a class="navbar-brand" th:href="@{/cursos}">Gestión de cursos</a> <!-- Enlace a la página principal de gestión de cursos -->
+        <div class="collapse navbar-collapse"> <!-- Contenedor para los elementos de la barra de navegación -->
+            <ul class="navbar-nav mr-auto"> <!-- Lista de elementos de la barra de navegación -->
+                <li class="nav-item"> <!-- Elemento de la lista -->
+                    <a class="nav-link" th:href="@{/cursos}">Cursos</a> <!-- Enlace a la página de cursos -->
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/cursos/nuevo}">Agregar cursos</a>
+                <li class="nav-item"> <!-- Elemento de la lista -->
+                    <a class="nav-link" th:href="@{/cursos/nuevo}">Agregar cursos</a> <!-- Enlace para agregar cursos -->
                 </li>
             </ul>
         </div>

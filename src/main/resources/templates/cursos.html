@@ -3,7 +3,6 @@
 
 <head> <!-- Inicia la sección de cabecera del documento -->
     <link th:replace="fragments/css::css"> <!-- Importa los estilos CSS definidos en un fragmento -->
-    <link rel="stylesheet" type="text/css" href="@{/css/style.css}"> <!-- Importa el archivo de estilo CSS externo -->
     <meta charset="UTF-8"> <!-- Define la codificación de caracteres como UTF-8 -->
     <title>Gestión de cursos</title> <!-- Establece el título de la página -->
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"> <!-- Importa estilos CSS utilizando Thymeleaf -->
@@ -109,7 +108,8 @@
             <a class="page-link" href="#">...</a> <!-- Inserta puntos suspensivos para indicar más páginas -->
         </li>
         <li class="page-item" th:classappend="${page == currentPage} ? 'active'"
-            th:each="page: ${#numbers.sequence(currentPage - 2 > 0 ? currentPage - 2 : 1, currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}">
+                th:each="page: ${#numbers.sequence(currentPage - 2 > 0 ? currentPage - 2 : 1, currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}"><!-- Elemento de lista para la paginación con condición para activar la clase 'active' si la página actual es igual a la página en iteración y una iteración sobre un rango de números de página -->
+
             <a th:replace="fragments/paging :: paging(${page}, ${page}, 'Page' + ${page})"></a> <!-- Inserta un enlace para ir a la página respectiva -->
         </li>
         <li class="page-item disabled" th:if="${currentPage + 2 > totalPages}"> <!-- Define un elemento de página deshabilitado si hay más de dos páginas después de la página actual -->
