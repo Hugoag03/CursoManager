@@ -21,11 +21,11 @@ spring.datasource.password=root --> Introduce la contraseña para acceder a tu b
 Luego ejecuta la base de datos.
 
 
-3. La rama master tiene la funcionalidad más simple. Agregar, editar y eliminar persona.
+3. La rama master tiene la última actualización de la app web.
 
-   La rama reportes-pdf-excel posee lo de la master + la posibilidad de descargar pdf y excel.
+   La rama reportes-pdf-excel posee la posibilidad de descargar pdf y excel.
 
-   La rama paginacion-busqueda posee lo de la master + la funcionalidad de paginación y búsqueda.
+   La rama paginacion-busqueda la funcionalidad de paginación y búsqueda.
 
  
 5. ¡Disfruta de la Experiencia!
